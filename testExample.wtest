@@ -1,9 +1,69 @@
-import example.pepita
+import intensamente.*
 
-describe "group of tests for pepita" {
+describe "A un grupo de personas le ocurre un evento"{
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  const alegria = new Alegria(intensidad = 300)
+  const tristeza = new Tristeza(intensidad = 400, causa = "decepcion")
+  const furia = new Furia (palabrotas = ["HD!#!!P#", "Horrendo"])
+
+  const riley = new Persona(edad= 14, emociones = [alegria, tristeza, furia])
+  const papaRiley = new Persona(edad= 30, emociones = [furia])
+
+  const grupo = [riley, papaRiley]
+
+  const graduacion = new Evento(impacto = 50, descripcion = "emocion")
+  const casamiento = new Evento(impacto = 30, descripcion = "felicidad")
+
+  
+  test "Si al grupo de personas le ocurre un evento, las consecuencias funcionan y no quieren explotar"{
+    assert.that(riley.vaAExplotar())
+    assert.that(papaRiley.vaAExplotar())
+    grupo.vivirUnEvento(graduacion)
+    grupo.vivirUnEvento(casamiento)
+    assert.notThat(riley.vaAExplotar())
+    assert.notThat(papaRiley.vaAExplotar())
   }
 
+  // No pude comprobar que despues de vivir un evento ya no quieren explotar,
+  // aunque los tests auxiliares funcionan y si pueden explotar o no
+
+  test "Riley quiere explotar"{
+    assert.that(riley.vaAExplotar())
+  }
+
+  test"El papa de Riley quiere explotar"{
+    assert.that(papaRiley.vaAExplotar())
+  }
+}
+
+describe "tests personas"{
+  const lucio = new Persona (edad = 20)
+  const valen = new Persona (edad = 14)
+  test "Lucio no es adolescente y valen si"{
+      assert.that(valen.esAdolescente())
+      assert.notThat(lucio.esAdolescente())
+  }
+}
+
+describe "Se pueden liberar emociones"{
+  const alegria = new Alegria(intensidad = 300)
+  const tristeza = new Tristeza(intensidad = 400, causa = "decepcion")
+  const furia = new Furia(palabrotas=["HD!#!!P#", "Horrendo"])
+
+  test "alegria se puede liberar"{
+    assert.that(alegria.puedeLiberarse())  
+  }
+  test "tristeza se puede liberar"{
+    assert.that(tristeza.puedeLiberarse())  
+  }
+  test "furia se puede liberar"{
+    assert.that(furia.puedeLiberarse())  
+  }
+}
+
+describe "Puedo cambiar la intensidad elevada"{
+  test "cambio de intensidad elevada"{
+    furia.modificarIntensidadElevada(20)
+    assert.equals(20, furia.intensidadElevada())
+  }
 }
